@@ -1,9 +1,58 @@
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+#title {
+    margin-left: auto;
+    margin-right: auto;
+    width: 369px;
+    height: 75px;
+    left: 535px;
+    top: 53px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 64px;
+    line-height: 75px;
+    /* identical to box height */
+
+    letter-spacing: 0.1em;
+
+    color: #000000;
 }
 
-#greeting-container {
-  margin-top: 20px;
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #C4C4C4;
+    color: black;
+    text-align: center;
+}
+
+#map {
+    position: absolute;
+    width: 871px;
+    height: 498px;
+    top: 263px;
+
+    background: #C4C4C4;
+    border-radius: 17px;
+}
+
+#info {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1373px;
+    height: 74px;
+    left: 33px;
+    top: 153px;
+
+    background: #C4C4C4;
+    border-radius: 17px;
+}
+
+#shared {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1373px;
+    height: 498px;
 }
