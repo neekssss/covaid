@@ -56,3 +56,14 @@
     width: 1373px;
     height: 498px;
 }
+
+.search {
+    position: absolute;
+    top: 10px;
+    margin-left: 15px;
+}
+
+.container {
+    position: absolute;
+    top: 5%;
+}
