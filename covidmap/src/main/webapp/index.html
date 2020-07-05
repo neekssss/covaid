@@ -51,7 +51,7 @@
             const apiKey = 'nalhGwkCIzLTssWOSn8LbXWKZ4AhIHCW' // API KEY for NYTimes api
             let topic = input.value;
 
-            let url = `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${topic}&api-key=${apiKey}` // api query, to be expanded/modified
+            let url = `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${topic}&fq=covid&sort=newest&api-key=${apiKey}` // api query
 
             // iterates through JSON returned by api and creates list elements for page
             fetch(url).then((res)=>{
