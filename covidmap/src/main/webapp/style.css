@@ -1,60 +1,80 @@
-#title {
-    margin-left: auto;
-    margin-right: auto;
-    width: 369px;
-    height: 75px;
-    left: 535px;
-    top: 53px;
+::-webkit-scrollbar {
+    display: none;
+}
 
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    overflow: scroll;
+}
+
+#title {
+    /* border: 1px solid red; */
+    width: 40%;
+    text-align: center;
+    height: 75px;
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
     font-size: 64px;
-    line-height: 75px;
-    /* identical to box height */
-
+    line-height: 75px; /* identical to box height */
     letter-spacing: 0.1em;
-
     color: #000000;
+    margin-left: 30%;
 }
 
-.footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: #C4C4C4;
-    color: black;
-    text-align: center;
-}
-
-#map {
-    position: absolute;
-    width: 871px;
-    height: 498px;
-    top: 263px;
-
+#info {
+    /* border: 1px solid red; */
+    margin-left: 3%;
+    margin-right: 3%;
+    height: 10vh;
+    top: 10%;
     background: #C4C4C4;
     border-radius: 17px;
 }
 
-#info {
-    margin-left: auto;
-    margin-right: auto;
-    width: 1373px;
-    height: 74px;
-    left: 33px;
-    top: 153px;
+#newsbox {
+    /* border: 1px solid red; */
+    position: absolute;
+    width: 45vw;
+    height: 40vw;
+    top: 28%;
+    right: 3%;
+    background: #C4C4C4;
+    border-radius: 17px;
+}
 
+#map {
+    /* border: 1px solid blue; */
+    position: absolute;
+    width: 45vw;
+    height: 40vw;
+    top: 28%;
+    left: 3%;
+    background: #C4C4C4;
+    border-radius: 17px;
+}
+
+#forum {
+    /* border: 1px solid blue; */
+    position: absolute;
+    height: 40vw;
+    margin-top: 5vw;
+    margin-bottom: 5vw;
+    left: 3%;
+    right: 3%;
     background: #C4C4C4;
     border-radius: 17px;
 }
 
 #shared {
-    margin-left: auto;
-    margin-right: auto;
-    width: 1373px;
-    height: 498px;
+    /* border: 1px solid blue; */
+    width: 100%;
+    height: 45vw;
 }
 
 .search {
@@ -65,5 +85,17 @@
 
 .container {
     position: absolute;
-    top: 5%;
+    top: 8%;
+    left: 8%;
+}
+
+.footer {
+    border: 1px solid black;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: black;
+    color: #C4C4C4;
+    text-align: center;
 }
