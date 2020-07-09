@@ -42,7 +42,29 @@ function getNews() {
 var map;
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 37.773972, lng: -122.431297 },
+    center: { lat: 34.0522, lng: -118.2437 },
     zoom: 10
   });
+  setMarkers(map)
+}
+
+// add some hard-coded test markers to map
+var testingSites = [
+    ['CVS', 34.187508, -118.369777],
+    ['Mend Urgent Care', 34.15911, -118.449056],
+    ['Exer Urgent Care', 34.045652, -118.43208],
+    ['Harbor-UCLA', 33.828807, -118.298656],
+    ['LAC+USC Medical Center', 34.057533, -118.207559]
+];
+
+function setMarkers(map) {
+    for (var i = 0; i < testingSites.length; i++) {
+        // set marker for each testing site
+        var testingSite = testingSites[i];
+        const marker = new google.maps.Marker({
+            position: {lat: testingSite[1], lng: testingSite[2]},
+            map: map,
+            title: testingSite[0]
+        });
+    }
 }
