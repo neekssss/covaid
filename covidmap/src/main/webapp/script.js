@@ -5,16 +5,20 @@ function getNews() {
 
     searchFrom.addEventListener('submit', newsFetch)
 
-    function newsFetch(e) {
+    async function newsFetch(e) {
         // checks if search field is empty
         if (input.value == '') {
             alert('Please enter search!')
             return
         }
-                
+                    
+        newsList.innerHTML = ''
+
         e.preventDefault()
 
-        const apiKey = 'nalhGwkCIzLTssWOSn8LbXWKZ4AhIHCW' // API KEY for NYTimes api
+        const response = await fetch('/news');
+        const apiKey = await response.text();
+
         let topic = input.value;
 
         let url = `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${topic}&fq=covid&sort=newest&api-key=${apiKey}` // api query
@@ -23,7 +27,23 @@ function getNews() {
         fetch(url).then((res)=>{
             return res.json()
         }).then((data)=>{
-            newsList.innerHTML = ''
+            data.response.docs.forEach(article =>{
+                let li = document.createElement('li');
+                let a = document.createElement('a');
+                a.setAttribute('href', article.web_url); // attaches url/link to list element
+                a.setAttribute('target', '_blank');
+                a.textContent = article.headline.main; // sets list element name/title
+                li.appendChild(a);
+                newsList.appendChild(li); // final element created
+            })
+        }).catch((error)=>{
+            console.log(error)
+        })
+    }
+}
+
+
+/*
             for (var i = 0; i < 10; i++) {
                 let li = document.createElement('li');
                 let a = document.createElement('a');
@@ -33,8 +53,4 @@ function getNews() {
                 li.appendChild(a);
                 newsList.appendChild(li); // final element created
             }
-        }).catch((error)=>{
-            console.log(error)
-        })
-    }
-}
+*/
