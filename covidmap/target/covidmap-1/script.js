@@ -45,10 +45,12 @@ function initMap() {
     center: { lat: 34.0522, lng: -118.2437 },
     zoom: 10
   });
-  setMarkers(map)
+  //setMarkers(map)
+  addTestingCenters();
 }
 
 // add some hard-coded test markers to map
+/*
 var testingSites = [
     ['CVS', 34.187508, -118.369777],
     ['Mend Urgent Care', 34.15911, -118.449056],
@@ -67,4 +69,36 @@ function setMarkers(map) {
             title: testingSite[0]
         });
     }
+}
+*/
+
+function setTestingCenterMarker(testingCenter) {
+    const marker = new google.maps.Marker({
+        position: testingCenter.geometry.location,
+        map: map,
+        title: testingCenter.name
+    });
+}
+
+// use Places API to search for COVID-19 testing centers in a particular region
+function addTestingCenters() {
+    var location = "";
+    location = String(document.getElementById("map-input").value);
+    const input = location.concat(' covid testing');
+
+    var request = {
+        query: input,
+        fields: ["name", "geometry"]
+    };
+
+    service = new google.maps.places.PlacesService(map);
+    
+    service.textSearch(request, function(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+                setTestingCenterMarker(results[i]);
+            }
+             map.setCenter(results[0].geometry.location);
+        }
+    });
 }
