@@ -99,3 +99,8 @@ body {
     color: #C4C4C4;
     text-align: center;
 }
+
+.map-search{
+    padding-left: 50px;
+    padding-top: 20px;
+}
