@@ -52,7 +52,8 @@ function initMap() {
     center: { lat: 34.0522, lng: -118.2437 },
     zoom: 10
   });
-  setMarkers(map)
+  setMarkers(map);
+  
 }
 
 // add some hard-coded test markers to map
@@ -65,6 +66,15 @@ var testingSites = [
 ];
 
 function setMarkers(map) {
+    var infoWindow = new google.maps.InfoWindow();
+    var MarkerClickHandler = function() {
+        infoWindow.close();
+        map.setZoom(12);
+        infoWindow = new google.maps.InfoWindow({position: this.getPosition()});
+        infoWindow.setContent(this.title);
+        infoWindow.open(map);
+        map.setCenter(this.getPosition());
+    };
     for (var i = 0; i < testingSites.length; i++) {
         // set marker for each testing site
         var testingSite = testingSites[i];
@@ -73,5 +83,8 @@ function setMarkers(map) {
             map: map,
             title: testingSite[0]
         });
-    }
+        google.maps.event.addListener(marker, 'click', MarkerClickHandler);
+    };
 }
+
+
