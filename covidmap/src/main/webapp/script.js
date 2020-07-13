@@ -91,6 +91,7 @@ function setMarkers(map) {
 */
 
 
+var markers = [];
 function setTestingCenterMarker(testingCenter) {
     const marker = new google.maps.Marker({
         position: testingCenter.geometry.location,
@@ -108,6 +109,7 @@ function setTestingCenterMarker(testingCenter) {
     };
     google.maps.event.addListener(marker, 'click', MarkerClickHandler);
 
+    markers.push(marker);
 }
 
 // use Places API to search for COVID-19 testing centers in a particular region
@@ -120,6 +122,14 @@ function addTestingCenters() {
         query: input,
         fields: ["name", "geometry"]
     };
+
+    // clear out old markers
+    if(markers.length > 0) {
+        markers.forEach(function(marker) {
+            marker.setMap(null);
+        });
+    }
+    markers = []
 
     service = new google.maps.places.PlacesService(map);
     
