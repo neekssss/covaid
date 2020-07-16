@@ -23,6 +23,9 @@ function getNews() {
 
             let topic = input.value;
 
+            // search for testing centers in this location, pin them to map
+            addTestingCenters(topic);
+
             let url = `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${topic}&fq=covid&sort=newest&api-key=${apiKey}` // api query
 
             // iterates through JSON returned by api and creates list elements for page
@@ -53,7 +56,9 @@ function initMap() {
     zoom: 10
   });
   //setMarkers(map)
-  addTestingCenters();
+  
+  // set markers for testing centers in default map location
+  addTestingCenters("");
   
 }
 
@@ -113,9 +118,8 @@ function setTestingCenterMarker(testingCenter) {
 }
 
 // use Places API to search for COVID-19 testing centers in a particular region
-function addTestingCenters() {
-    var location = "";
-    location = String(document.getElementById("map-input").value);
+function addTestingCenters(location) {
+    location = String(location)
     const input = location.concat(' covid testing');
 
     var request = {
