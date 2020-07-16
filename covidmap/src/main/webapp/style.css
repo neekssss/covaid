@@ -100,6 +100,39 @@ body {
     text-align: center;
 }
 
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  font: 50 20px/1.1 Helvetica, Verdana, sans-serif;
+  border-bottom: 4px solid #C4C4C4;
+}
+
+li:last-child {
+  border: none;
+}
+
+li a {
+  text-decoration: none;
+  color: #000;
+
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+  display: block;
+  width: auto;
+}
+
+li a:hover {
+  font-size: 22px;
+  background: #f6f6f6;
+}
+
 .map-search{
     padding-left: 50px;
     padding-top: 20px;
