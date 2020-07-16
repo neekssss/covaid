@@ -17,7 +17,7 @@ function getNews() {
             newsList.innerHTML = ''
 
             e.preventDefault()
-
+            
             const response = await fetch('/news');
             const apiKey = await response.json();
 
@@ -46,6 +46,12 @@ function getNews() {
             })
             flag = 1;
         }
+
+        // add heading above the news list
+        var heading = document.createElement("H3");
+        var headingText = document.createTextNode("News");
+        heading.appendChild(headingText);
+        newsList.insertBefore(heading, newsList.childNodes[0]);
     }
 }
 
