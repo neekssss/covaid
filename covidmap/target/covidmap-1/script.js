@@ -2,40 +2,47 @@ function getNews() {
     const searchFrom = document.querySelector('.search');
     const input = document.querySelector('.input');
     const newsList = document.querySelector('.news-list');
+    var flag = 0;
 
     searchFrom.addEventListener('submit', newsFetch)
 
-    function newsFetch(e) {
+    async function newsFetch(e) {
         // checks if search field is empty
-        if (input.value == '') {
+        if (input.value == '' && flag == 0) {
             alert('Please enter search!')
             return
         }
-                
-        e.preventDefault()
 
-        const apiKey = 'nalhGwkCIzLTssWOSn8LbXWKZ4AhIHCW' // API KEY for NYTimes api
-        let topic = input.value;
-
-        let url = `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${topic}&fq=covid&sort=newest&api-key=${apiKey}` // api query
-
-        // iterates through JSON returned by api and creates list elements for page
-        fetch(url).then((res)=>{
-            return res.json()
-        }).then((data)=>{
+        if (flag == 0) {            
             newsList.innerHTML = ''
-            for (var i = 0; i < 10; i++) {
-                let li = document.createElement('li');
-                let a = document.createElement('a');
-                a.setAttribute('href', data.response.docs[i].web_url); // attaches url/link to list element
-                a.setAttribute('target', '_blank');
-                a.textContent = data.response.docs[i].headline.main; // sets list element name/title
-                li.appendChild(a);
-                newsList.appendChild(li); // final element created
-            }
-        }).catch((error)=>{
-            console.log(error)
-        })
+
+            e.preventDefault()
+
+            const response = await fetch('/news');
+            const apiKey = await response.json();
+
+            let topic = input.value;
+
+            let url = `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${topic}&fq=covid&sort=newest&api-key=${apiKey}` // api query
+
+            // iterates through JSON returned by api and creates list elements for page
+            fetch(url).then((res)=>{
+                return res.json()
+            }).then((data)=>{
+                data.response.docs.forEach(article =>{
+                    let li = document.createElement('li');
+                    let a = document.createElement('a');
+                    a.setAttribute('href', article.web_url); // attaches url/link to list element
+                    a.setAttribute('target', '_blank');
+                    a.textContent = article.headline.main; // sets list element name/title
+                    li.appendChild(a);
+                    newsList.appendChild(li); // final element created
+                })
+            }).catch((error)=>{
+                console.log(error)
+            })
+            flag = 1;
+        }
     }
 }
 
@@ -45,10 +52,13 @@ function initMap() {
     center: { lat: 34.0522, lng: -118.2437 },
     zoom: 10
   });
-  setMarkers(map)
+  //setMarkers(map)
+  addTestingCenters();
+  
 }
 
 // add some hard-coded test markers to map
+/*
 var testingSites = [
     ['CVS', 34.187508, -118.369777],
     ['Mend Urgent Care', 34.15911, -118.449056],
@@ -58,6 +68,15 @@ var testingSites = [
 ];
 
 function setMarkers(map) {
+    var infoWindow = new google.maps.InfoWindow();
+    var MarkerClickHandler = function() {
+        infoWindow.close();
+        map.setZoom(12);
+        infoWindow = new google.maps.InfoWindow({position: this.getPosition()});
+        infoWindow.setContent(this.title);
+        infoWindow.open(map);
+        map.setCenter(this.getPosition());
+    };
     for (var i = 0; i < testingSites.length; i++) {
         // set marker for each testing site
         var testingSite = testingSites[i];
@@ -66,5 +85,60 @@ function setMarkers(map) {
             map: map,
             title: testingSite[0]
         });
+        google.maps.event.addListener(marker, 'click', MarkerClickHandler);
+    };
+}
+*/
+
+var infoWindow = new google.maps.InfoWindow();
+
+var markers = [];
+function setTestingCenterMarker(testingCenter) {
+    const marker = new google.maps.Marker({
+        position: testingCenter.geometry.location,
+        map: map,
+        title: testingCenter.name
+    });
+    var MarkerClickHandler = function() {
+        infoWindow.close();
+        map.setZoom(12);
+        infoWindow = new google.maps.InfoWindow({position: this.getPosition()});
+        infoWindow.setContent(this.title);
+        infoWindow.open(map);
+        map.setCenter(this.getPosition());
+    };
+    google.maps.event.addListener(marker, 'click', MarkerClickHandler);
+
+    markers.push(marker);
+}
+
+// use Places API to search for COVID-19 testing centers in a particular region
+function addTestingCenters() {
+    var location = "";
+    location = String(document.getElementById("map-input").value);
+    const input = location.concat(' covid testing');
+
+    var request = {
+        query: input,
+        fields: ["name", "geometry"]
+    };
+
+    // clear out old markers
+    if(markers.length > 0) {
+        markers.forEach(function(marker) {
+            marker.setMap(null);
+        });
     }
+    markers = []
+
+    service = new google.maps.places.PlacesService(map);
+    
+    service.textSearch(request, function(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+                setTestingCenterMarker(results[i]);
+            }
+             map.setCenter(results[0].geometry.location);
+        }
+    });
 }

@@ -132,3 +132,8 @@ li a:hover {
   font-size: 22px;
   background: #f6f6f6;
 }
+
+.map-search{
+    padding-left: 50px;
+    padding-top: 20px;
+}
