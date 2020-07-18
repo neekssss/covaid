@@ -14,23 +14,15 @@
 
     <div id="info"></div>
 
-    <!-- text input for map to search for testing centers -->
-    <div id="searchmap">
-        <form class="map-search">
-            <label for="location">Enter Location:</label>
-            <input id="map-input" type="text" name="location" oninput="addTestingCenters()"/>
-        </form>
-    </div>
-
     <div id="shared">
         <div id="newsbox">
             <form class="search" action="">
-                    <label for"">News</label>
+                    <label for"">Enter Location: </label>
                 <input class="input" type="text" />
                 <input type="submit" onclick="getNews()" />
             </form>
 
-            <div class="container">
+            <div class="container" id="newsDiv">
                 <ul class="news-list"></ul>
             </div>
         </div>
