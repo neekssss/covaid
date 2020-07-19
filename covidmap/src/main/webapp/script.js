@@ -170,7 +170,7 @@ function setTestingCenterMarker(testingCenter, service) {
                 outputText += open_hours;
             }
         }
-        document.getElementById("location-info").innerHTML = outputText;//"<strong>" + this.title + "</strong><br>" + this.formatted_address + "<br>" + currentlyOpen; 
+        document.getElementById("location-info").innerHTML = outputText;
     };
     google.maps.event.addListener(marker, 'click', MarkerClickHandler);
 
