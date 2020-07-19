@@ -18,8 +18,9 @@ function getNews() {
 
             e.preventDefault()
             
-            const response = await fetch('/news');
-            const apiKey = await response.json();
+            /*const response = await fetch('/news');
+            const apiKey = await response.json();*/
+            const apiKey = 'nalhGwkCIzLTssWOSn8LbXWKZ4AhIHCW';
 
             let topic = input.value;
 
@@ -127,16 +128,13 @@ function setTestingCenterMarker(testingCenter, service) {
     // this is to match the weekday_text property of the opening hours for Places API
     var dayOfWeek = (today.getDay() + 6) % 7;
     var testSiteInfo = "";
-    var open_hours = "";
+    var open_hours = "Information about opening hours for this location is not currently available.";
     
     service.getDetails(request, function(place, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             if (place.opening_hours && place.utc_offset_minutes) {
                 console.log('${place.opening_hours.weekday_text[0]}');
                 open_hours = place.opening_hours.weekday_text[dayOfWeek];
-            }
-            else {
-                open_hours = "Information about opening hours for this location is not currently available.";
             }
             
             testSiteInfo = ("<strong>" + place.name + "</strong><br>" + 
@@ -151,22 +149,28 @@ function setTestingCenterMarker(testingCenter, service) {
 
     var infoWindow = new google.maps.InfoWindow();
     var MarkerClickHandler = function() {
-        infoWindow.close();
+        //infoWindow.close();
         map.setZoom(12);
         infoWindow = new google.maps.InfoWindow({position: this.getPosition()});
         infoWindow.setContent(this.title);
-        infoWindow.open(map);
+        infoWindow.open(map, marker);
         map.setCenter(this.getPosition());
 
+        var outputText = "<strong>" + this.title + "</strong><br>" + this.formatted_address + "<br>";
         // display info
         if (testSiteInfo) {
             document.getElementById("location-info").innerHTML = (testSiteInfo);
         }
         else {
-            var currentlyOpen = (this.opening_hours.open_now)? "Currently open." : "Currently closed."
-            document.getElementById("location-info").innerHTML = "<strong>" + this.title + "</strong><br>" + this.formatted_address + "<br>" + currentlyOpen;
-            
+            try {
+                var currentlyOpen = (this.opening_hours.open_now)? "Currently open." : "Currently closed.";
+                outputText += currentlyOpen;
+            }
+            catch(e) {
+                outputText += open_hours;
+            }
         }
+        document.getElementById("location-info").innerHTML = outputText;//"<strong>" + this.title + "</strong><br>" + this.formatted_address + "<br>" + currentlyOpen; 
     };
     google.maps.event.addListener(marker, 'click', MarkerClickHandler);
 
