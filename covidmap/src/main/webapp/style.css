@@ -173,3 +173,7 @@ li a:hover {
   background: #f6f6f6;
 }
 
+#location-info {
+    padding-bottom: 50px;
+    font: 50 20px/1.1 Helvetica, Verdana, sans-serif;
+}
