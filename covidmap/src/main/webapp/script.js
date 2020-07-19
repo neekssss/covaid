@@ -48,10 +48,12 @@ function getNews() {
         }
 
         // add heading above the news list
-        var heading = document.createElement("H3");
+        var heading = document.createElement("H2");
         var headingText = document.createTextNode("News");
         heading.appendChild(headingText);
         newsList.insertBefore(heading, newsList.childNodes[0]);
+        // revert to original prompt for map interaction with marker 
+        document.getElementById("location-info").innerHTML =("<p>Please click a marker to get information about a specific testing center.<p>");
     }
 }
 
@@ -65,6 +67,7 @@ function initMap() {
   
   // set markers for testing centers in default map location
   addTestingCenters("");
+  document.getElementById("location-info").innerHTML =("<p>Welcome to COVAID.<p> <br> <p>Please enter your location above to obtain more accurate results and click a marker to get information about a specific testing center.<p>");
   
 }
 
@@ -103,12 +106,49 @@ function setMarkers(map) {
 
 
 var markers = [];
-function setTestingCenterMarker(testingCenter) {
+var places = [];
+function setTestingCenterMarker(testingCenter, service) {
     const marker = new google.maps.Marker({
         position: testingCenter.geometry.location,
         map: map,
-        title: testingCenter.name
+        title: testingCenter.name,
+        placeId: testingCenter.place_id,
+        formatted_address: testingCenter.formatted_address, 
+        opening_hours: testingCenter.opening_hours
     });
+
+    // get more info re: this testing center
+    var request = {
+        placeId: testingCenter.place_id,
+        fields: ['name', 'formatted_address', 'opening_hours', 'utc_offset_minutes']
+    };
+    var today = new Date();
+    // start array of days on monday instead of sunday which is default
+    // this is to match the weekday_text property of the opening hours for Places API
+    var dayOfWeek = (today.getDay() + 6) % 7;
+    var testSiteInfo = "";
+    var open_hours = "";
+    
+    service.getDetails(request, function(place, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            if (place.opening_hours && place.utc_offset_minutes) {
+                console.log('${place.opening_hours.weekday_text[0]}');
+                open_hours = place.opening_hours.weekday_text[dayOfWeek];
+            }
+            else {
+                open_hours = "Information about opening hours for this location is not currently available.";
+            }
+            
+            testSiteInfo = ("<strong>" + place.name + "</strong><br>" + 
+                            place.formatted_address + "<br>" + 
+                            open_hours);
+
+            marker.addListener('click', () => {
+                document.getElementById("location-info").innerHTML = (testSiteInfo);
+            });
+        }
+    }); 
+
     var infoWindow = new google.maps.InfoWindow();
     var MarkerClickHandler = function() {
         infoWindow.close();
@@ -117,6 +157,16 @@ function setTestingCenterMarker(testingCenter) {
         infoWindow.setContent(this.title);
         infoWindow.open(map);
         map.setCenter(this.getPosition());
+
+        // display info
+        if (testSiteInfo) {
+            document.getElementById("location-info").innerHTML = (testSiteInfo);
+        }
+        else {
+            var currentlyOpen = (this.opening_hours.open_now)? "Currently open." : "Currently closed."
+            document.getElementById("location-info").innerHTML = "<strong>" + this.title + "</strong><br>" + this.formatted_address + "<br>" + currentlyOpen;
+            
+        }
     };
     google.maps.event.addListener(marker, 'click', MarkerClickHandler);
 
@@ -130,7 +180,7 @@ function addTestingCenters(location) {
 
     var request = {
         query: input,
-        fields: ["name", "geometry"]
+        fields: ["name", "geometry", "place_id", "formatted_address", "opening_hours"]
     };
 
     // clear out old markers
@@ -146,7 +196,7 @@ function addTestingCenters(location) {
     service.textSearch(request, function(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             for (var i = 0; i < results.length; i++) {
-                setTestingCenterMarker(results[i]);
+                setTestingCenterMarker(results[i], service);
             }
              map.setCenter(results[0].geometry.location);
         }
