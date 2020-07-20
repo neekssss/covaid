@@ -173,6 +173,11 @@ li a:hover {
   background: #f6f6f6;
 }
 
+#location-info {
+    padding-bottom: 50px;
+    font: 50 20px/1.1 Helvetica, Verdana, sans-serif;
+}
+
 input[type=text] {
   width: 200px;
   box-sizing: border-box;
@@ -188,7 +193,7 @@ input[type=text]:focus {
   width: 100%;
 }
 
-H3 { 
+H2 { 
   font-family: Helvetica;
   font-style: Verdana;
   font-weight: sans-serif;
