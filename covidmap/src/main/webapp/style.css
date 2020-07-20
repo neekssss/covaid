@@ -143,7 +143,7 @@ body {
 ul {
   list-style-type: none;
   margin: 0;
-  padding: 0;
+  padding: 40px 0px 30px 0px;
 }
 
 li {
@@ -176,4 +176,48 @@ li a:hover {
 #location-info {
     padding-bottom: 50px;
     font: 50 20px/1.1 Helvetica, Verdana, sans-serif;
+}
+
+input[type=text] {
+  width: 200px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  padding: 9px 10px;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+  width: 100%;
+}
+
+H2 { 
+  font-family: Helvetica;
+  font-style: Verdana;
+  font-weight: sans-serif;
+  font-size: 23px;
+  border-bottom: 4px solid rgb(0, 0, 0);
+}
+
+.button {
+  background-color: white; /* Green */
+  border: 2px solid black;
+  border-radius: 4px;
+  color: black;
+  padding: 5px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  position: absolute;
+}
+
+.button:hover {
+  background-color: #C4C4C4;
+  color: black;
 }

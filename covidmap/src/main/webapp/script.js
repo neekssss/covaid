@@ -18,9 +18,8 @@ function getNews() {
 
             e.preventDefault()
             
-            /*const response = await fetch('/news');
-            const apiKey = await response.json();*/
-            const apiKey = 'nalhGwkCIzLTssWOSn8LbXWKZ4AhIHCW';
+            const response = await fetch('/news');
+            const apiKey = await response.json();
 
             let topic = input.value;
 
@@ -54,7 +53,7 @@ function getNews() {
         heading.appendChild(headingText);
         newsList.insertBefore(heading, newsList.childNodes[0]);
         // revert to original prompt for map interaction with marker 
-        document.getElementById("location-info").innerHTML =("<p>Please click a marker to get information about a specific testing center.<p>");
+        document.getElementById("location-info").innerHTML =("<br> <p>Please click a marker to get information about a specific testing center.<p>");
     }
 }
 
@@ -68,7 +67,7 @@ function initMap() {
   
   // set markers for testing centers in default map location
   addTestingCenters("");
-  document.getElementById("location-info").innerHTML =("<p>Welcome to COVAID.<p> <br> <p>Please enter your location above to obtain more accurate results and click a marker to get information about a specific testing center.<p>");
+  document.getElementById("location-info").innerHTML =("<br> <p>Welcome to COVAID.<p> <br> <p>Please enter your location above to obtain more accurate results and click a marker to get information about a specific testing center.<p>");
   
 }
 
@@ -137,7 +136,7 @@ function setTestingCenterMarker(testingCenter, service) {
                 open_hours = place.opening_hours.weekday_text[dayOfWeek];
             }
             
-            testSiteInfo = ("<strong>" + place.name + "</strong><br>" + 
+            testSiteInfo = ("<br><strong>" + place.name + "</strong><br>" + 
                             place.formatted_address + "<br>" + 
                             open_hours);
 
@@ -156,7 +155,7 @@ function setTestingCenterMarker(testingCenter, service) {
         infoWindow.open(map, marker);
         map.setCenter(this.getPosition());
 
-        var outputText = "<strong>" + this.title + "</strong><br>" + this.formatted_address + "<br>";
+        var outputText = "<br><strong>" + this.title + "</strong><br>" + this.formatted_address + "<br>";
         // display info
         if (testSiteInfo) {
             document.getElementById("location-info").innerHTML = (testSiteInfo);
