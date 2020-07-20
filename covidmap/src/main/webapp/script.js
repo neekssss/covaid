@@ -18,9 +18,8 @@ function getNews() {
 
             e.preventDefault()
             
-            /*const response = await fetch('/news');
-            const apiKey = await response.json();*/
-            const apiKey = 'nalhGwkCIzLTssWOSn8LbXWKZ4AhIHCW';
+            const response = await fetch('/news');
+            const apiKey = await response.json();
 
             let topic = input.value;
 
