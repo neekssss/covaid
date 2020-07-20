@@ -136,7 +136,7 @@ function setTestingCenterMarker(testingCenter, service) {
                 open_hours = place.opening_hours.weekday_text[dayOfWeek];
             }
             
-            testSiteInfo = ("<strong>" + place.name + "</strong><br>" + 
+            testSiteInfo = ("<br><strong>" + place.name + "</strong><br>" + 
                             place.formatted_address + "<br>" + 
                             open_hours);
 
@@ -155,7 +155,7 @@ function setTestingCenterMarker(testingCenter, service) {
         infoWindow.open(map, marker);
         map.setCenter(this.getPosition());
 
-        var outputText = "<strong>" + this.title + "</strong><br>" + this.formatted_address + "<br>";
+        var outputText = "<br><strong>" + this.title + "</strong><br>" + this.formatted_address + "<br>";
         // display info
         if (testSiteInfo) {
             document.getElementById("location-info").innerHTML = (testSiteInfo);
