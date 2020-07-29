@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>covidmap</title>
+    <title>COVAID</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
@@ -26,9 +26,8 @@
     <div id="shared">
         <div id="newsbox">
             <form class="search" action="">
-                    <label for"">Enter Location: </label>
-                <input class="input" type="text" />
-                <input type="submit" onclick="getNews()" />
+                <input class="input" type="text" placeholder="Enter location.."/>
+                <button class="button" onclick="getNews()"> Search!</button>
             </form>
 
             <div class="container" id="newsDiv">
@@ -40,7 +39,6 @@
         <div id="map">
             <p>map </p>
         </div>
-
     </div>
 
 
@@ -48,7 +46,7 @@
         <p>Footer/Contact</p>
     </div> 
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxUGiJyrg2E11PGuIodBUWT3ZRPmdYe1U&callback=initMap&libraries=places&v=weekly"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBe0ezz6VnU-5pqR1SV9F9955uPb91ke0o&callback=initMap&libraries=places&v=weekly"
       defer
     ></script>
   </body>
